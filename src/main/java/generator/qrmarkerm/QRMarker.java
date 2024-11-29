@@ -12,7 +12,7 @@ public class QRMarker extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(QRMarker.class.getResource("qrmarker-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 420);
-        stage.setTitle("Hello!");
+        stage.setTitle("QRMarker");
         stage.setScene(scene);
         stage.show();
     }
