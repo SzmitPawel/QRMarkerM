@@ -1,16 +1,12 @@
 package generator.qrmarkerm.fx.controller;
 
-import generator.qrmarkerm.generator.ZxingGenerator;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-
-import java.awt.image.BufferedImage;
+import javafx.scene.paint.Color;
 
 public class QRMarkerViewController {
     @FXML
@@ -25,44 +21,40 @@ public class QRMarkerViewController {
     @FXML
     private Button copyButton;
 
+    @FXML
+    private ColorPicker qrCodeColorPicker;
+
+    @FXML
+    private ColorPicker backgroundColorPicker;
+
     private final Alert alert = new Alert(Alert.AlertType.NONE);
-    private final ZxingGenerator zxingGenerator = new ZxingGenerator();
+    private final GenerateButtonHandle generateButtonHandle = new GenerateButtonHandle();
+    private final CopyButtonHandle copyButtonHandle = new CopyButtonHandle();
 
     @FXML
     public void initialize() {
-        generateButtonHandle();
-        copyButtonHandle();
-    }
-
-    private void generateButtonHandle() {
+        setDefaultColorForColorPickers();
         copyButton.setDisable(true);
-        generateButton.setOnAction(event -> {
-            if (linkField.getText() == null || linkField.getText().isEmpty()) {
-                alert.setAlertType(Alert.AlertType.WARNING);
-                alert.setContentText("Pole linku nie może być puste.");
-                alert.show();
-                return;
-            }
+        configureActionsForGenerateButton();
+        configureActionsForCopyToClipboardButton();
+    }
 
-            try {
-                BufferedImage bufferedImage = zxingGenerator.generateQRCodeImage(linkField.getText());
-                qrImageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
-                copyButton.setDisable(false);
-            } catch (Exception e) {
-                alert.setAlertType(Alert.AlertType.ERROR);
-                alert.setContentText("Błąd generowania kodu QR: " + e.getMessage());
-                alert.show();
-            }
+    private void configureActionsForGenerateButton() {
+        generateButton.setOnAction(event -> {
+            generateButtonHandle
+                    .execute(linkField.getText(), qrImageView, alert, qrCodeColorPicker, backgroundColorPicker);
+            copyButton.setDisable(false);
         });
     }
 
-    private void copyButtonHandle() {
+    private void configureActionsForCopyToClipboardButton() {
         copyButton.setOnAction(event -> {
-            ClipboardContent clipboardContent = new ClipboardContent();
-            clipboardContent.putImage(qrImageView.getImage());
-
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            clipboard.setContent(clipboardContent);
+            copyButtonHandle.execute(qrImageView);
         });
+    }
+
+    private void setDefaultColorForColorPickers() {
+        qrCodeColorPicker.setValue(Color.BLACK);
+        backgroundColorPicker.setValue(Color.WHITE);
     }
 }
