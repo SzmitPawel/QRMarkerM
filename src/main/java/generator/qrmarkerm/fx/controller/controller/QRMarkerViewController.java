@@ -1,5 +1,8 @@
-package generator.qrmarkerm.fx.controller;
+package generator.qrmarkerm.fx.controller.controller;
 
+import generator.qrmarkerm.fx.controller.button.CopyButtonHandle;
+import generator.qrmarkerm.fx.controller.button.GenerateButtonHandle;
+import generator.qrmarkerm.fx.controller.button.LoadLogoButtonHandle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -25,24 +28,40 @@ public class QRMarkerViewController {
     private ColorPicker qrCodeColorPicker;
 
     @FXML
-    private ColorPicker backgroundColorPicker;
+    private ColorPicker backGroundColorPicker;
+
+    @FXML
+    private Button uploadLogoButton;
+
+    @FXML
+    private ImageView logoPreview;
 
     private final Alert alert = new Alert(Alert.AlertType.NONE);
     private final GenerateButtonHandle generateButtonHandle = new GenerateButtonHandle();
     private final CopyButtonHandle copyButtonHandle = new CopyButtonHandle();
+    private final LoadLogoButtonHandle loadLogoButtonHandle = new LoadLogoButtonHandle();
 
     @FXML
     public void initialize() {
         setDefaultColorForColorPickers();
         copyButton.setDisable(true);
+
         configureActionsForGenerateButton();
         configureActionsForCopyToClipboardButton();
+        configureActionsForUploadLogoButton();
     }
 
     private void configureActionsForGenerateButton() {
         generateButton.setOnAction(event -> {
             generateButtonHandle
-                    .execute(linkField.getText(), qrImageView, alert, qrCodeColorPicker, backgroundColorPicker);
+                    .execute(linkField.getText(),
+                            qrImageView,
+                            logoPreview,
+                            alert,
+                            qrCodeColorPicker,
+                            backGroundColorPicker
+                    );
+
             copyButton.setDisable(false);
         });
     }
@@ -55,6 +74,12 @@ public class QRMarkerViewController {
 
     private void setDefaultColorForColorPickers() {
         qrCodeColorPicker.setValue(Color.BLACK);
-        backgroundColorPicker.setValue(Color.WHITE);
+        backGroundColorPicker.setValue(Color.WHITE);
+    }
+
+    private void configureActionsForUploadLogoButton() {
+        uploadLogoButton.setOnAction(event -> {
+            loadLogoButtonHandle.execute(alert, logoPreview);
+        });
     }
 }

@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.SpinnerValueFactory?>
 
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <?import java.lang.String?>
-<?import java.awt.Color?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="generator.qrmarkerm.fx.controller.QRMarkerViewController"
+      fx:controller="generator.qrmarkerm.fx.controller.controller.QRMarkerViewController"
       alignment="CENTER" spacing="10" style="-fx-padding: 20; -fx-background-color: #f4f4f4;">
 
     <!-- Text field to enter link -->
@@ -34,13 +26,19 @@
             <Label text="Kolor kodu:"/>
             <ColorPicker fx:id="qrCodeColorPicker"/>
             <Label text="Kolor tła:"/>
-            <ColorPicker fx:id="backgroundColorPicker" />
+            <ColorPicker fx:id="backGroundColorPicker" />
         </HBox>
 
         <!-- Logo customization -->
+        <!--<HBox alignment="CENTER" spacing="10">
+            <Label text="Dodaj logo:"/>
+            <Button fx:id="uploadLogoButton" text="Wybierz logo"/>
+        </HBox>-->
+
         <HBox alignment="CENTER" spacing="10">
             <Label text="Dodaj logo:"/>
             <Button fx:id="uploadLogoButton" text="Wybierz logo"/>
+            <ImageView fx:id="logoPreview" fitWidth="50" fitHeight="50" preserveRatio="true" style="-fx-border-color: gray;"/>
         </HBox>
 
         <HBox alignment="CENTER" spacing="10">

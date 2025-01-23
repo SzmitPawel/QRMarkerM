@@ -1,6 +1,7 @@
-package generator.qrmarkerm.fx.controller;
+package generator.qrmarkerm.fx.controller.button;
 
-import generator.qrmarkerm.generator.ZxingGenerator;
+import generator.qrmarkerm.fx.controller.pattern.Generator;
+import generator.qrmarkerm.fx.controller.pattern.GeneratorFactory;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ColorPicker;
@@ -10,26 +11,20 @@ import java.awt.image.BufferedImage;
 
 public class GenerateButtonHandle {
 
-    private final ZxingGenerator zxingGenerator = new ZxingGenerator();
-
     public void execute(
-            final String link,
+            final String barcodeText,
             final ImageView qrImageView,
+            final ImageView logoPreview,
             final Alert alert,
             final ColorPicker qrColorPicker,
             final ColorPicker backgroundColorPicker
     ) {
-
-        if (link == null || link.isEmpty()) {
-            alert.setAlertType(Alert.AlertType.WARNING);
-            alert.setContentText("Pole linku nie może być puste.");
-            alert.show();
-            return;
-        }
+        Generator generator = GeneratorFactory.getGenerator(logoPreview);
 
         try {
-            BufferedImage bufferedImage = zxingGenerator
-                    .generateQRCodeImage(link, qrColorPicker, backgroundColorPicker);
+            BufferedImage bufferedImage = generator
+                    .generate(barcodeText, qrColorPicker, backgroundColorPicker);
+
             qrImageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
         } catch (Exception e) {
             alert.setAlertType(Alert.AlertType.ERROR);
