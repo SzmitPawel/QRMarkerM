@@ -8,7 +8,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import generator.qrmarkerm.dto.Resolution;
+import generator.qrmarkerm.dto.ResolutionDto;
 import generator.qrmarkerm.fx.controller.pattern.Generator;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
@@ -29,13 +29,13 @@ public class ZxingGenerator implements Generator {
             final String resolution
     ) throws WriterException, IOException {
 
-        Resolution qrCodeResolution = parseResolution(resolution);
+        ResolutionDto qrCodeResolutionDto = parseResolution(resolution);
 
         BitMatrix bitMatrix = qrCodeWriter.encode(
                 barcodeText,
                 BarcodeFormat.QR_CODE,
-                qrCodeResolution.getWidth(),
-                qrCodeResolution.getHeight(),
+                qrCodeResolutionDto.getWidth(),
+                qrCodeResolutionDto.getHeight(),
                 getErrorCorrectionHints());
 
         return MatrixToImageWriter.toBufferedImage(bitMatrix, setQrCodeColors(qrColorPicker, backgroudColorPicker));
@@ -69,10 +69,10 @@ public class ZxingGenerator implements Generator {
         return new MatrixToImageConfig(onQrCodeRBG, offBackgroundRBG);
     }
 
-    private Resolution parseResolution(String resolution) {
+    private ResolutionDto parseResolution(String resolution) {
         String[] split = resolution.split("x");
 
-        return new Resolution(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+        return new ResolutionDto(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
     }
 
     private Map<EncodeHintType, Object> getErrorCorrectionHints() {

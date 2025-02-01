@@ -1,10 +1,10 @@
 package generator.qrmarkerm.dto;
 
-public class Resolution {
+public class ResolutionDto {
     private final int width;
     private final int height;
 
-    public Resolution(int width, int height) {
+    public ResolutionDto(int width, int height) {
         this.width = width;
         this.height = height;
     }
