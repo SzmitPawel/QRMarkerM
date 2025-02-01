@@ -8,13 +8,13 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import generator.qrmarkerm.dto.Resolution;
 import generator.qrmarkerm.fx.controller.pattern.Generator;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Color;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ZxingGenerator implements Generator {
@@ -25,10 +25,34 @@ public class ZxingGenerator implements Generator {
     public BufferedImage generate(
             final String barcodeText,
             final ColorPicker qrColorPicker,
-            final ColorPicker backgroudColorPicker
+            final ColorPicker backgroudColorPicker,
+            final String resolution
     ) throws WriterException, IOException {
 
+        Resolution qrCodeResolution = parseResolution(resolution);
 
+        BitMatrix bitMatrix = qrCodeWriter.encode(
+                barcodeText,
+                BarcodeFormat.QR_CODE,
+                qrCodeResolution.getWidth(),
+                qrCodeResolution.getHeight(),
+                getErrorCorrectionHints());
+
+        return MatrixToImageWriter.toBufferedImage(bitMatrix, setQrCodeColors(qrColorPicker, backgroudColorPicker));
+    }
+
+    private int colorToInt(Color color) {
+        int red = (int) (color.getRed() * 255);
+        int green = (int) (color.getGreen() * 255);
+        int blue = (int) (color.getBlue() * 255);
+        int alpha = (int) (color.getOpacity() * 255);
+        return (alpha << 24) | (red << 16) | (green << 8) | blue;
+    }
+
+    private MatrixToImageConfig setQrCodeColors(
+            final ColorPicker qrColorPicker,
+            final ColorPicker backgroudColorPicker
+    ) {
         Color qrCodeColor = qrColorPicker.getValue();
         if (qrCodeColor == null || qrCodeColor.equals(Color.BLACK)) {
             qrCodeColor = Color.valueOf("#1a1a1a");
@@ -42,23 +66,16 @@ public class ZxingGenerator implements Generator {
         int onQrCodeRBG = colorToInt(qrCodeColor);
         int offBackgroundRBG = colorToInt(backgroundColor);
 
-        MatrixToImageConfig conf = new MatrixToImageConfig(onQrCodeRBG, offBackgroundRBG);
-
-        // Error correction
-        ErrorCorrectionLevel level = ErrorCorrectionLevel.H;
-        Map<EncodeHintType, Object> hints = new HashMap<>();
-        hints.put(EncodeHintType.ERROR_CORRECTION, level);
-
-        BitMatrix bitMatrix = qrCodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200, hints);
-
-        return MatrixToImageWriter.toBufferedImage(bitMatrix, conf);
+        return new MatrixToImageConfig(onQrCodeRBG, offBackgroundRBG);
     }
 
-    private int colorToInt(Color color) {
-        int red = (int) (color.getRed() * 255);
-        int green = (int) (color.getGreen() * 255);
-        int blue = (int) (color.getBlue() * 255);
-        int alpha = (int) (color.getOpacity() * 255);
-        return (alpha << 24) | (red << 16) | (green << 8) | blue;
+    private Resolution parseResolution(String resolution) {
+        String[] split = resolution.split("x");
+
+        return new Resolution(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+    }
+
+    private Map<EncodeHintType, Object> getErrorCorrectionHints() {
+        return Map.of(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
     }
 }
