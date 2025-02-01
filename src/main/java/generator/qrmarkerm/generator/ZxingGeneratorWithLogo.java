@@ -22,16 +22,14 @@ public class ZxingGeneratorWithLogo extends ZxingGenerator implements Generator 
     public BufferedImage generate(
             final String barcodeText,
             final ColorPicker qrColorPicker,
-            final ColorPicker backgroudColorPicker
+            final ColorPicker backgroudColorPicker,
+            final String resolution
     ) throws WriterException, IOException {
 
-        // Generate QR Code
-        BufferedImage qrCodeImage = super.generate(barcodeText, qrColorPicker, backgroudColorPicker);
+        BufferedImage qrCodeImage = super.generate(barcodeText, qrColorPicker, backgroudColorPicker, resolution);
 
-        // Load and scale logo
         BufferedImage scaledLogo = prepareScaledLogo(logoImageView, qrCodeImage.getWidth(), qrCodeImage.getHeight());
 
-        // Combine QR code and logo
         prepareQRCodeWithLogo(qrCodeImage, scaledLogo);
 
         return qrCodeImage;
@@ -42,6 +40,7 @@ public class ZxingGeneratorWithLogo extends ZxingGenerator implements Generator 
             final int qrCodeWidth,
             final int qrCodeHeight
     ) throws IOException {
+
         // Load the logo image
         BufferedImage logoImage = SwingFXUtils.fromFXImage(logoImageView.getImage(), null);
 
@@ -79,8 +78,6 @@ public class ZxingGeneratorWithLogo extends ZxingGenerator implements Generator 
         return resizedLogo;
     }
 
-    ;
-
     private void prepareQRCodeWithLogo(BufferedImage qrCodeImage, BufferedImage logoImage) {
         Graphics2D qrCodeGraphics = qrCodeImage.createGraphics();
 
@@ -94,6 +91,4 @@ public class ZxingGeneratorWithLogo extends ZxingGenerator implements Generator 
         qrCodeGraphics.drawImage(logoImage, centerX, centerY, null);
         qrCodeGraphics.dispose();
     }
-
-    ;
 }

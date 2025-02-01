@@ -3,11 +3,9 @@ package generator.qrmarkerm.fx.controller.controller;
 import generator.qrmarkerm.fx.controller.button.CopyButtonHandle;
 import generator.qrmarkerm.fx.controller.button.GenerateButtonHandle;
 import generator.qrmarkerm.fx.controller.button.LoadLogoButtonHandle;
+import generator.qrmarkerm.fx.controller.combobox.CodeResolutionsComboBox;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
@@ -36,10 +34,14 @@ public class QRMarkerViewController {
     @FXML
     private ImageView logoPreview;
 
+    @FXML
+    private ComboBox<String> resolutionComboBox;
+
     private final Alert alert = new Alert(Alert.AlertType.NONE);
     private final GenerateButtonHandle generateButtonHandle = new GenerateButtonHandle();
     private final CopyButtonHandle copyButtonHandle = new CopyButtonHandle();
     private final LoadLogoButtonHandle loadLogoButtonHandle = new LoadLogoButtonHandle();
+    private final CodeResolutionsComboBox codeResolutionsComboBox = new CodeResolutionsComboBox();
 
     @FXML
     public void initialize() {
@@ -49,6 +51,7 @@ public class QRMarkerViewController {
         configureActionsForGenerateButton();
         configureActionsForCopyToClipboardButton();
         configureActionsForUploadLogoButton();
+        setupResolutionComboBox();
     }
 
     private void configureActionsForGenerateButton() {
@@ -59,7 +62,8 @@ public class QRMarkerViewController {
                             logoPreview,
                             alert,
                             qrCodeColorPicker,
-                            backGroundColorPicker
+                            backGroundColorPicker,
+                            resolutionComboBox.getValue()
                     );
 
             copyButton.setDisable(false);
@@ -81,5 +85,10 @@ public class QRMarkerViewController {
         uploadLogoButton.setOnAction(event -> {
             loadLogoButtonHandle.execute(alert, logoPreview);
         });
+    }
+
+    private void setupResolutionComboBox() {
+        resolutionComboBox.getItems().addAll(codeResolutionsComboBox.getCodeResolutions());
+        resolutionComboBox.setValue(codeResolutionsComboBox.getCodeResolutions().getFirst());
     }
 }

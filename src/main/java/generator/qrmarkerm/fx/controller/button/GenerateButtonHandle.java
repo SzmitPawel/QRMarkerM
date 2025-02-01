@@ -17,13 +17,14 @@ public class GenerateButtonHandle {
             final ImageView logoPreview,
             final Alert alert,
             final ColorPicker qrColorPicker,
-            final ColorPicker backgroundColorPicker
+            final ColorPicker backgroundColorPicker,
+            final String qrCodeResolution
     ) {
         Generator generator = GeneratorFactory.getGenerator(logoPreview);
 
         try {
             BufferedImage bufferedImage = generator
-                    .generate(barcodeText, qrColorPicker, backgroundColorPicker);
+                    .generate(barcodeText, qrColorPicker, backgroundColorPicker, qrCodeResolution);
 
             qrImageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
         } catch (Exception e) {
