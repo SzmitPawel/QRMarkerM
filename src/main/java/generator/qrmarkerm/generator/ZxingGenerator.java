@@ -38,6 +38,8 @@ public class ZxingGenerator implements Generator {
                 qrCodeResolutionDto.getHeight(),
                 getErrorCorrectionHints());
 
+        bitMatrix = removeMargins(bitMatrix);
+
         return MatrixToImageWriter.toBufferedImage(bitMatrix, setQrCodeColors(qrColorPicker, backgroudColorPicker));
     }
 
@@ -76,6 +78,24 @@ public class ZxingGenerator implements Generator {
     }
 
     private Map<EncodeHintType, Object> getErrorCorrectionHints() {
-        return Map.of(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+        return Map.of(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H, EncodeHintType.MARGIN, 0);
+    }
+
+    private BitMatrix removeMargins(BitMatrix bitMatrix) {
+        int[] rectangle = bitMatrix.getEnclosingRectangle();
+        int x = rectangle[0];
+        int y = rectangle[1];
+        int w = rectangle[2];
+        int h = rectangle[3];
+
+        BitMatrix newMatrix = new BitMatrix(w, h);
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                if (bitMatrix.get(x + i, y + j)) {
+                    newMatrix.set(i, j);
+                }
+            }
+        }
+        return newMatrix;
     }
 }
