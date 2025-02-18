@@ -5,8 +5,6 @@ module generator.qrmarkerm {
     requires com.google.zxing;
     requires com.google.zxing.javase;
     requires javafx.swing;
-    requires qr.code.with.logo;
-
 
     opens generator.qrmarkerm to javafx.fxml;
     exports generator.qrmarkerm;
