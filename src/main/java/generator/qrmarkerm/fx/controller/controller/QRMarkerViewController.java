@@ -4,6 +4,7 @@ import generator.qrmarkerm.fx.controller.button.CopyButtonHandle;
 import generator.qrmarkerm.fx.controller.button.GenerateButtonHandle;
 import generator.qrmarkerm.fx.controller.button.LoadLogoButtonHandle;
 import generator.qrmarkerm.fx.controller.combobox.CodeResolutionsComboBox;
+import generator.qrmarkerm.fx.controller.combobox.CodeStylesCodeComboBox;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -37,11 +38,15 @@ public class QRMarkerViewController {
     @FXML
     private ComboBox<String> resolutionComboBox;
 
+    @FXML
+    private ComboBox<String> styleComboBox;
+
     private final Alert alert = new Alert(Alert.AlertType.NONE);
     private final GenerateButtonHandle generateButtonHandle = new GenerateButtonHandle();
     private final CopyButtonHandle copyButtonHandle = new CopyButtonHandle();
     private final LoadLogoButtonHandle loadLogoButtonHandle = new LoadLogoButtonHandle();
     private final CodeResolutionsComboBox codeResolutionsComboBox = new CodeResolutionsComboBox();
+    private final CodeStylesCodeComboBox codeStylesCodeComboBox = new CodeStylesCodeComboBox();
 
     @FXML
     public void initialize() {
@@ -52,6 +57,7 @@ public class QRMarkerViewController {
         configureActionsForCopyToClipboardButton();
         configureActionsForUploadLogoButton();
         setupResolutionComboBox();
+        setupCodeStylesCodeComboBox();
     }
 
     private void configureActionsForGenerateButton() {
@@ -63,7 +69,8 @@ public class QRMarkerViewController {
                             alert,
                             qrCodeColorPicker,
                             backGroundColorPicker,
-                            resolutionComboBox.getValue()
+                            resolutionComboBox.getValue(),
+                            styleComboBox.getValue()
                     );
 
             copyButton.setDisable(false);
@@ -90,5 +97,10 @@ public class QRMarkerViewController {
     private void setupResolutionComboBox() {
         resolutionComboBox.getItems().addAll(codeResolutionsComboBox.getCodeResolutions());
         resolutionComboBox.setValue(codeResolutionsComboBox.getCodeResolutions().getFirst());
+    }
+
+    private void setupCodeStylesCodeComboBox() {
+        styleComboBox.getItems().addAll(codeStylesCodeComboBox.getCodeStyles());
+        styleComboBox.setValue(codeStylesCodeComboBox.getCodeStyles().getFirst());
     }
 }
