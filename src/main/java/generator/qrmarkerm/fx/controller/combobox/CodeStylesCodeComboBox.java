@@ -4,6 +4,6 @@ import java.util.List;
 
 public class CodeStylesCodeComboBox {
     public List<String> getCodeStyles() {
-        return List.of("Standardowy", "Zaokrąglony", "Gradient");
+        return List.of("Standardowy", "Zaokrąglony");
     }
 }
