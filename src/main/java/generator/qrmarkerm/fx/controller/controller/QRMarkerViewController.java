@@ -41,6 +41,9 @@ public class QRMarkerViewController {
     @FXML
     private ComboBox<String> styleComboBox;
 
+    @FXML
+    private ColorPicker finderInnerColorPicker;
+
     private final Alert alert = new Alert(Alert.AlertType.NONE);
     private final GenerateButtonHandle generateButtonHandle = new GenerateButtonHandle();
     private final CopyButtonHandle copyButtonHandle = new CopyButtonHandle();
@@ -52,12 +55,14 @@ public class QRMarkerViewController {
     public void initialize() {
         setDefaultColorForColorPickers();
         copyButton.setDisable(true);
+        finderInnerColorPicker.setDisable(true);
 
         configureActionsForGenerateButton();
         configureActionsForCopyToClipboardButton();
         configureActionsForUploadLogoButton();
         setupResolutionComboBox();
         setupCodeStylesCodeComboBox();
+        setupFinderInnerColorPicker();
     }
 
     private void configureActionsForGenerateButton() {
@@ -69,6 +74,7 @@ public class QRMarkerViewController {
                             alert,
                             qrCodeColorPicker,
                             backGroundColorPicker,
+                            finderInnerColorPicker,
                             resolutionComboBox.getValue(),
                             styleComboBox.getValue()
                     );
@@ -102,5 +108,9 @@ public class QRMarkerViewController {
     private void setupCodeStylesCodeComboBox() {
         styleComboBox.getItems().addAll(codeStylesCodeComboBox.getCodeStyles());
         styleComboBox.setValue(codeStylesCodeComboBox.getCodeStyles().getFirst());
+    }
+
+    private void setupFinderInnerColorPicker() {
+        finderInnerColorPicker.setValue(Color.BLACK);
     }
 }

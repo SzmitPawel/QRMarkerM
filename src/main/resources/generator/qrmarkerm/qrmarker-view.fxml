@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="generator.qrmarkerm.fx.controller.controller.QRMarkerViewController"
-      alignment="CENTER" spacing="10" style="-fx-padding: 20; -fx-background-color: #f4f4f4;">
+      alignment="CENTER" spacing="10" style="-fx-padding: 20; -fx-background-color: #f4f4f4; -fx-border-radius: 10; -fx-border-color: #ddd;">
 
     <!-- Text field to enter link -->
-    <TextField fx:id="linkField" promptText="Wprowadź link..." prefWidth="400"/>
+    <TextField fx:id="linkField" promptText="Wprowadź link..." prefWidth="400" style="-fx-font-size: 14px; -fx-padding: 10;"/>
 
     <!-- Button to generate QR codes -->
-    <Button fx:id="generateButton" text="Generuj kod QR"/>
+    <Button fx:id="generateButton" text="Generuj kod QR" style="-fx-font-size: 14px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10;"/>
 
     <!-- Image to display QR code -->
-    <ImageView fx:id="qrImageView" fitWidth="300" fitHeight="300" preserveRatio="true"/>
+    <ImageView fx:id="qrImageView" fitWidth="300" fitHeight="300" preserveRatio="true" style="-fx-padding: 10;"/>
 
     <!-- QR Code Customization Options -->
     <VBox alignment="CENTER" spacing="10">
 
         <!-- Color customization -->
         <HBox alignment="CENTER" spacing="10">
-            <Label text="Kolor kodu:"/>
+            <Label text="Kolor kodu:" style="-fx-font-size: 12px;"/>
             <ColorPicker fx:id="qrCodeColorPicker"/>
-            <Label text="Kolor tła:"/>
-            <ColorPicker fx:id="backGroundColorPicker" />
+            <Label text="Kolor tła:" style="-fx-font-size: 12px;"/>
+            <ColorPicker fx:id="backGroundColorPicker"/>
+        </HBox>
+
+        <!-- Finder pattern customization -->
+        <HBox alignment="CENTER" spacing="10">
+            <Label text="Kolor wewnętrzny wzoru wyszukiwania:" style="-fx-font-size: 12px;"/>
+            <ColorPicker fx:id="finderInnerColorPicker"/>
         </HBox>
 
         <!-- Logo customization -->
-        <!--<HBox alignment="CENTER" spacing="10">
-            <Label text="Dodaj logo:"/>
-            <Button fx:id="uploadLogoButton" text="Wybierz logo"/>
-        </HBox>-->
-
         <HBox alignment="CENTER" spacing="10">
-            <Label text="Dodaj logo:"/>
-            <Button fx:id="uploadLogoButton" text="Wybierz logo"/>
-            <ImageView fx:id="logoPreview" fitWidth="50" fitHeight="50" preserveRatio="true" style="-fx-border-color: gray;"/>
+            <Label text="Dodaj logo:" style="-fx-font-size: 12px;"/>
+            <Button fx:id="uploadLogoButton" text="Wybierz logo" style="-fx-font-size: 12px;"/>
+            <ImageView fx:id="logoPreview" fitWidth="50" fitHeight="50" preserveRatio="true" style="-fx-border-color: gray; -fx-padding: 5;"/>
         </HBox>
 
         <HBox alignment="CENTER" spacing="10">
-            <Label text="Rozdzielczość kodu:"/>
+            <Label text="Rozdzielczość kodu:" style="-fx-font-size: 12px;"/>
             <ComboBox fx:id="resolutionComboBox" prefWidth="120"/>
         </HBox>
 
         <!-- Style customization -->
         <HBox alignment="CENTER" spacing="10">
-            <Label text="Styl kodu:"/>
+            <Label text="Styl kodu:" style="-fx-font-size: 12px;"/>
             <ComboBox fx:id="styleComboBox" prefWidth="200"/>
         </HBox>
     </VBox>
 
     <!-- Button to copy link to clipboard -->
-    <Button fx:id="copyButton" text="Kopiuj QR code" disable="true"/>
+    <Button fx:id="copyButton" text="Kopiuj QR code" disable="true" style="-fx-font-size: 14px; -fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 10;"/>
 </VBox>

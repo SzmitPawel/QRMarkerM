@@ -9,14 +9,71 @@ import javafx.scene.control.ColorPicker;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class RoundedQrCodeStyle {
-    public BufferedImage roundFinderPatterns(
+public final class RoundedQrCodeStyle {
+    private final BufferedImage qrImage;
+    private final String barcodeText;
+    private final ColorPicker backgroundColorPicker;
+    private final ColorPicker qrColorPicker;
+    private final ColorPicker finderInnerColorPicker;
+
+    public static class RoundedQrCodeStyleBuilder {
+        private BufferedImage qrImage;
+        private String barcodeText;
+        private ColorPicker backgroundColorPicker;
+        private ColorPicker qrColorPicker;
+        private ColorPicker finderInnerColorPicker;
+
+        public RoundedQrCodeStyleBuilder qrImage(BufferedImage qrImage) {
+            this.qrImage = qrImage;
+            return this;
+        }
+
+        public RoundedQrCodeStyleBuilder barcodeText(String barcodeText) {
+            this.barcodeText = barcodeText;
+            return this;
+        }
+
+        public RoundedQrCodeStyleBuilder backgroundColorPicker(ColorPicker backgroundColorPicker) {
+            this.backgroundColorPicker = backgroundColorPicker;
+            return this;
+        }
+
+        public RoundedQrCodeStyleBuilder qrColorPicker(ColorPicker qrColorPicker) {
+            this.qrColorPicker = qrColorPicker;
+            return this;
+        }
+
+        public RoundedQrCodeStyleBuilder finderInnerColorPicker(ColorPicker finderInnerColorPicker) {
+            this.finderInnerColorPicker = finderInnerColorPicker;
+            return this;
+        }
+
+        public RoundedQrCodeStyle build() {
+            return new RoundedQrCodeStyle(
+                    qrImage,
+                    barcodeText,
+                    backgroundColorPicker,
+                    qrColorPicker,
+                    finderInnerColorPicker
+            );
+        }
+    }
+
+    private RoundedQrCodeStyle(
             final BufferedImage qrImage,
             final String barcodeText,
             final ColorPicker backgroundColorPicker,
-            final ColorPicker qrColorPicker
+            final ColorPicker qrColorPicker,
+            final ColorPicker finderInnerColorPicker
+    ) {
+        this.qrImage = qrImage;
+        this.barcodeText = barcodeText;
+        this.backgroundColorPicker = backgroundColorPicker;
+        this.qrColorPicker = qrColorPicker;
+        this.finderInnerColorPicker = finderInnerColorPicker;
+    }
 
-    ) throws WriterException {
+    public BufferedImage roundFinderPatterns() throws WriterException {
 
         int width = qrImage.getWidth();
         int height = qrImage.getHeight();
@@ -40,7 +97,8 @@ public class RoundedQrCodeStyle {
                 0,
                 finderSingleModuleSize,
                 backgroundColorPicker,
-                qrColorPicker);
+                qrColorPicker,
+                finderInnerColorPicker);
 
         // upper right corner
         processFinderPattern(
@@ -49,7 +107,8 @@ public class RoundedQrCodeStyle {
                 0,
                 finderSingleModuleSize,
                 backgroundColorPicker,
-                qrColorPicker);
+                qrColorPicker,
+                finderInnerColorPicker);
 
         // lower left corner
         processFinderPattern(
@@ -58,7 +117,8 @@ public class RoundedQrCodeStyle {
                 height - finderSingleModuleSize,
                 finderSingleModuleSize,
                 backgroundColorPicker,
-                qrColorPicker);
+                qrColorPicker,
+                finderInnerColorPicker);
 
         g2d.dispose();
         return roundedQR;
@@ -70,7 +130,8 @@ public class RoundedQrCodeStyle {
             final int y,
             final int size,
             final ColorPicker backgroundColorPicker,
-            final ColorPicker qrColorPicker
+            final ColorPicker qrColorPicker,
+            final ColorPicker finderInnerColorPicker
     ) {
         int moduleSize = Math.round(size / 7.0f);
 
@@ -90,7 +151,7 @@ public class RoundedQrCodeStyle {
         g2d.fillOval(x + moduleSize, y + moduleSize, size - 2 * moduleSize, size - 2 * moduleSize);
 
         // set color for round inner code in the search patterns
-        g2d.setColor(getColor(qrColorPicker));
+        g2d.setColor(getColor(finderInnerColorPicker));
         g2d.fillOval(x + 2 * moduleSize, y + 2 * moduleSize, size - 4 * moduleSize, size - 4 * moduleSize);
     }
 

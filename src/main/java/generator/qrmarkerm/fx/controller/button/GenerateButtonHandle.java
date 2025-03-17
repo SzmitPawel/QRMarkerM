@@ -19,6 +19,7 @@ public class GenerateButtonHandle {
             final Alert alert,
             final ColorPicker qrColorPicker,
             final ColorPicker backgroundColorPicker,
+            final ColorPicker finderInnerColorPicker,
             final String qrCodeResolution,
             final String qrCodeStyle
     ) {
@@ -30,16 +31,18 @@ public class GenerateButtonHandle {
 
             switch (qrCodeStyle) {
                 case "Zaokrąglony":
-                    RoundedQrCodeStyle roundedQrCodeStyle = new RoundedQrCodeStyle();
-                    qrImageView.setImage(SwingFXUtils.toFXImage(
-                            roundedQrCodeStyle.roundFinderPatterns(
-                                    bufferedImage,
-                                    barcodeText,
-                                    backgroundColorPicker,
-                                    qrColorPicker),
-                            null));
+                    RoundedQrCodeStyle roundedQrCodeStyle = new RoundedQrCodeStyle.RoundedQrCodeStyleBuilder()
+                            .qrImage(bufferedImage)
+                            .barcodeText(barcodeText)
+                            .backgroundColorPicker(backgroundColorPicker)
+                            .qrColorPicker(qrColorPicker)
+                            .finderInnerColorPicker(finderInnerColorPicker)
+                            .build();
+                    finderInnerColorPicker.setDisable(false);
+                    qrImageView.setImage(SwingFXUtils.toFXImage(roundedQrCodeStyle.roundFinderPatterns(),null));
                     break;
                 default:
+                    finderInnerColorPicker.setDisable(true);
                     qrImageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
             }
         } catch (Exception e) {
