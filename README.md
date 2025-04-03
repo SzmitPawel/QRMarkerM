@@ -1,13 +1,22 @@
 
 # QRMarker
 
-QRMarker is a JavaFX application that generates QR codes from user-provided text or links. The generated QR codes can be displayed in the application and copied directly to the system clipboard.
+### Project Overview
 
-## Features
-- Generate QR Codes: Input a link or text and generate a QR code.
-- Copy to Clipboard: Copy the generated QR code image directly to your clipboard.
-- JavaFX GUI: User-friendly interface built with JavaFX.
-- ZXing Integration: Uses the ZXing library for QR code
+QR Marker Generator is a JavaFX-based application for generating customizable QR codes. Users can modify the QR code's colors, styles, resolution, and even add a logo. The project follows a modular design and implements design patterns for code maintainability.
+
+
+
+### Features
+- Custom QR Code Generation: Users can create QR codes with different styles and resolutions.
+
+-  Logo Support: The generated QR codes can include an embedded logo.
+
+- Finder Pattern Styling: Rounded QR code styles are available.
+
+- Flexible Resolution: Different QR code resolutions can be selected from a dropdown menu.
+
+- Copy QR Code: A feature to copy the generated QR code to the clipboard.
 
 ### Requirements
 - Java Development Kit (JDK): Version 11 or later.
@@ -15,27 +24,52 @@ QRMarker is a JavaFX application that generates QR codes from user-provided text
 - ZXing Library: Included in the project for QR code generation.
 
 ### Usage
-- Launch the application.
-- Enter a link or text into the input field.
-- Click the Generate button to create a QR code.
-- Copy the QR code to the clipboard by clicking the Copy button.
+- Enter a link in the text field.
+
+- Click the Generate QR Code button.
+
+- Customize your QR code:
+
+- Choose foreground and background colors.
+
+- Select QR code resolution.
+
+- Apply a QR code style (e.g., rounded patterns).
+
+- Add a logo if needed.
+
+- Click Copy QR Code to copy the generated code.
+
+
 
 ### Project Structure
 ```
-src/
-├── main/
-│   ├── java/
-│   │   ├── generator/
-│   │   │   ├── qrmarkerm/
-│   │   │   │   ├── fx/
-│   │   │   │   │   ├── controller/
-│   │   │   │   │   │   ├── QRMarkerViewController.java  # JavaFX Controller
-│   │   │   │   ├── generator/
-│   │   │   │   │   ├── ZxingGenerator.java              # QR Code generation logic
-│   │   │   │   ├── ApplicationLauncher.java             # Entry point for launching JavaFX
-│   │   │   │   ├── QRMarker.java                        # Core JavaFX application class
-│   ├── resources/
-│   │   ├── qrmarker-view.fxml                           # JavaFX layout file
+QRMarkerGenerator/
+│── dto/
+│   └── ResolutionDto.java
+│
+│── fx/controller/button/
+│   ├── CopyButtonHandle.java
+│   ├── GenerateButtonHandle.java
+│   ├── LoadLogoButtonHandle.java
+│
+│── combobox/
+│   ├── CodeResolutionsComboBox.java
+│   ├── CodeStylesComboBox.java
+│
+│── controller/
+│   └── QRMarkerViewController.java
+│
+│── pattern/
+│   ├── Generator.java
+│   ├── GeneratorFactory.java
+│
+│── generator/
+│   ├── ZxingGenerator.java
+│   ├── ZxingGeneratorWithLogo.java
+│
+│── styles/
+│   └── RoundedQrCodeStyle.java
 ```
 ### Contributing
 1. Fork the repository.
@@ -52,8 +86,3 @@ git commit -m "Description of changes"
 git push origin feature-name
 ```
 5. Submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License.](https://choosealicense.com/licenses/mit/)
-
