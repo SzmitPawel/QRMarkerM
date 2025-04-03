@@ -86,3 +86,8 @@ git commit -m "Description of changes"
 git push origin feature-name
 ```
 5. Submit a pull request.
+
+6. ## License
+
+This project is licensed under the [MIT License.](https://choosealicense.com/licenses/mit/)
+
